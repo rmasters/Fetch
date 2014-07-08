@@ -124,11 +124,11 @@ class Server
 
         switch ($port) {
             case 143:
-                $this->setFlag('novalidate-cert');
+                $this->setFlag('ssl', 'novalidate-cert');
                 break;
 
             case 993:
-                $this->setFlag('ssl');
+                $this->setFlag('ssl', 'novalidate-cert');
                 break;
         }
 
@@ -203,9 +203,9 @@ class Server
             } elseif ($value != false) {
                 $match = preg_grep('/' . $flag . '/', $this->flags);
                 if (reset($match)) {
-                    $this->flags[key($match)] = $flag . '=' . $value;
+                    $this->flags[key($match)] = $flag . '/' . $value;
                 } else {
-                    $this->flags[] = $flag . '=' . $value;
+                    $this->flags[] = $flag . '/' . $value;
                 }
             }
         } elseif ($index === false) {
@@ -268,8 +268,7 @@ class Server
         if (isset($this->port))
             $mailboxPath .= ':' . $this->port;
 
-        if ($this->service != 'imap')
-            $mailboxPath .= '/' . $this->service;
+        $mailboxPath .= '/' . $this->service;
 
         foreach ($this->flags as $flag) {
             $mailboxPath .= '/' . $flag;
