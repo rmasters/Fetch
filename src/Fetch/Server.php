@@ -124,7 +124,7 @@ class Server
 
         switch ($port) {
             case 143:
-                $this->setFlag('ssl', 'novalidate-cert');
+                //$this->setFlag('ssl', 'novalidate-cert');
                 break;
 
             case 993:
